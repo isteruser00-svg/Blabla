@@ -122,7 +122,7 @@ canvas{
 
 
 /* =========================================================
-   FOTOĞRAF PENCERESİ
+   FOTOĞRAF
 ========================================================= */
 
 #photoPopup{
@@ -134,8 +134,10 @@ canvas{
     justify-content:center;
     padding:20px;
     background:rgba(0,0,0,.88);
+
     opacity:0;
     pointer-events:none;
+
     transition:opacity .35s ease;
 }
 
@@ -146,16 +148,23 @@ canvas{
 
 #specialPhoto{
     display:block;
+
     max-width:92vw;
     max-height:88vh;
+
     width:auto;
     height:auto;
+
     object-fit:contain;
+
     border-radius:18px;
+
     box-shadow:
         0 0 30px rgba(255,255,255,.18),
         0 0 80px rgba(160,80,255,.3);
+
     cursor:pointer;
+
     user-select:none;
     -webkit-user-select:none;
 }
@@ -166,15 +175,18 @@ canvas{
 
 <canvas id="canvas"></canvas>
 
+
 <div id="intro">
     <h1>SANA ÖZEL</h1>
     <p>Benim küçük evrenim...</p>
 </div>
 
+
 <div id="hint">
     ✦ Galaksiyi parmağınla döndür ✦<br>
     💜 Küçük ışıklara dokun
 </div>
+
 
 <div id="message">
     <div id="messageText"></div>
@@ -182,21 +194,25 @@ canvas{
 </div>
 
 
-<!-- FOTOĞRAF -->
+<!-- =======================================================
+     FOTOĞRAF PENCERESİ
+======================================================= -->
+
 <div id="photoPopup">
+
     <img
         id="specialPhoto"
-        src="1000005597.jpg"
+        src="IMG_20261008_214939.jpg"
         alt="Sana özel"
     >
+
 </div>
 
 
 <script>
+
 /* =========================================================
    SANA ÖZEL GALAKSİ
-   Harici kütüphane yok.
-   GitHub Pages + telefon uyumlu.
 ========================================================= */
 
 const canvas = document.getElementById("canvas");
@@ -212,8 +228,13 @@ let CX = 0;
 let CY = 0;
 let DPR = 1;
 
+
 function resize(){
-    DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+    DPR = Math.min(
+        window.devicePixelRatio || 1,
+        2
+    );
 
     W = window.innerWidth;
     H = window.innerHeight;
@@ -224,13 +245,25 @@ function resize(){
     canvas.style.width = W + "px";
     canvas.style.height = H + "px";
 
-    ctx.setTransform(DPR,0,0,DPR,0,0);
+    ctx.setTransform(
+        DPR,
+        0,
+        0,
+        DPR,
+        0,
+        0
+    );
 
     CX = W / 2;
     CY = H / 2;
 }
 
-window.addEventListener("resize", resize);
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
 resize();
 
 
@@ -239,25 +272,45 @@ resize();
 ========================================================= */
 
 const messages = [
+
     "Sen benim en güzel tesadüfümsün. ❤️",
+
     "Dünyada milyarlarca insan var ama ben seni seçtim.",
+
     "Sen varken evren biraz daha güzel.",
+
     "Gülüşün, en sevdiğim manzara.",
+
     "İyi ki varsın.",
+
     "Sana baktığımda zaman biraz yavaşlıyor.",
+
     "Kalbimin en güzel köşesinde sen varsın.",
+
     "Mesafeler ne kadar uzak olursa olsun, kalbim sana yakın.",
+
     "Sen benim huzurumsun.",
+
     "Bir yıldız kayarsa dilek tutmam. Çünkü dileğim zaten sensin.",
+
     "Seni düşündüğüm her an yüzümde bir gülümseme oluyor.",
+
     "Bu evrendeki en güzel şeylerden biri sensin.",
+
     "Seninle geçen küçücük bir an bile benim için çok değerli.",
+
     "İyi ki yollarımız kesişmiş.",
+
     "Seni her gün biraz daha çok seviyorum.",
+
     "Benim için dünyanın en güzel yeri, senin olduğun yer.",
+
     "Kalbim seni görünce evine dönmüş gibi oluyor.",
+
     "Sana söyleyemediğim binlerce güzel şey var.",
+
     "Ne kadar yıldız varsa gökyüzünde, o kadar sebebim var seni sevmek için.",
+
     "Sen benim en güzel hikâyemsin."
 ];
 
@@ -269,61 +322,109 @@ const messages = [
 const particles = [];
 
 const mobile = W < 700;
-const PARTICLE_COUNT = mobile ? 3800 : 6200;
+
+const PARTICLE_COUNT =
+    mobile ? 3800 : 6200;
+
 
 function random(min,max){
-    return Math.random() * (max-min) + min;
+
+    return Math.random() *
+        (max-min) +
+        min;
 }
+
 
 for(let i=0;i<PARTICLE_COUNT;i++){
 
-    const arm = Math.floor(Math.random()*5);
+    const arm =
+        Math.floor(
+            Math.random()*5
+        );
 
-    const radius = Math.pow(Math.random(),0.58) * 1.0;
+    const radius =
+        Math.pow(
+            Math.random(),
+            .58
+        ) * 1.0;
 
     const baseAngle =
         arm * (Math.PI*2/5) +
         radius * 5.7;
 
-    const spread = random(-0.30,0.30);
+    const spread =
+        random(
+            -.30,
+            .30
+        );
 
-    const angle = baseAngle + spread;
+    const angle =
+        baseAngle + spread;
 
-    const x = Math.cos(angle) * radius;
-    const z = Math.sin(angle) * radius;
+    const x =
+        Math.cos(angle) *
+        radius;
+
+    const z =
+        Math.sin(angle) *
+        radius;
 
     const y =
-        random(-0.045,0.045) *
+        random(
+            -.045,
+            .045
+        ) *
         (0.25 + radius*1.4);
 
     particles.push({
+
         x,
         y,
         z,
 
-        size: random(.35,1.5) *
-              (radius < .2 ? 1.2 : 1),
+        size:
+            random(.35,1.5) *
+            (radius < .2 ? 1.2 : 1),
 
-        brightness: random(.35,1),
+        brightness:
+            random(.35,1),
 
-        tone: Math.random()
+        tone:
+            Math.random()
     });
 }
 
 
 /* =========================================================
-   YILDIZLAR - ARKA PLAN
+   ARKA PLAN YILDIZLARI
 ========================================================= */
 
 const backgroundStars = [];
 
-for(let i=0;i<(mobile?180:300);i++){
+
+for(
+    let i=0;
+    i<(mobile ? 180 : 300);
+    i++
+){
+
     backgroundStars.push({
+
         x:Math.random(),
+
         y:Math.random(),
-        size:random(.3,1.2),
-        alpha:random(.15,.7),
-        twinkle:random(0,Math.PI*2)
+
+        size:
+            random(.3,1.2),
+
+        alpha:
+            random(.15,.7),
+
+        twinkle:
+            random(
+                0,
+                Math.PI*2
+            )
     });
 }
 
@@ -334,22 +435,51 @@ for(let i=0;i<(mobile?180:300);i++){
 
 const messagePoints = [];
 
-for(let i=0;i<messages.length;i++){
+
+for(
+    let i=0;
+    i<messages.length;
+    i++
+){
 
     const angle =
-        (i/messages.length)*Math.PI*2 +
-        random(-.12,.12);
+        (i/messages.length) *
+        Math.PI*2 +
+        random(
+            -.12,
+            .12
+        );
 
-    const radius = random(.68,.94);
+    const radius =
+        random(
+            .68,
+            .94
+        );
 
     messagePoints.push({
-        x:Math.cos(angle)*radius,
-        y:random(-.035,.035),
-        z:Math.sin(angle)*radius,
 
-        text:messages[i],
+        x:
+            Math.cos(angle) *
+            radius,
 
-        phase:random(0,Math.PI*2),
+        y:
+            random(
+                -.035,
+                .035
+            ),
+
+        z:
+            Math.sin(angle) *
+            radius,
+
+        text:
+            messages[i],
+
+        phase:
+            random(
+                0,
+                Math.PI*2
+            ),
 
         screenX:0,
         screenY:0,
@@ -363,35 +493,69 @@ for(let i=0;i<messages.length;i++){
    3D DÖNÜŞ
 ========================================================= */
 
-let rotY = 0.5;
-let rotX = -0.12;
+let rotY = .5;
 
-let targetRotY = rotY;
-let targetRotX = rotX;
+let rotX = -.12;
 
-let velocityY = 0.0018;
-let velocityX = 0;
+let targetRotY =
+    rotY;
 
-let dragging = false;
+let targetRotX =
+    rotX;
 
-let lastX = 0;
-let lastY = 0;
+let velocityY =
+    .0018;
+
+let velocityX =
+    0;
+
+let dragging =
+    false;
+
+let lastX =
+    0;
+
+let lastY =
+    0;
+
 
 function rotatePoint(p){
 
-    const cy = Math.cos(rotY);
-    const sy = Math.sin(rotY);
+    const cy =
+        Math.cos(rotY);
 
-    let x = p.x * cy - p.z * sy;
-    let z = p.x * sy + p.z * cy;
+    const sy =
+        Math.sin(rotY);
 
-    const cx = Math.cos(rotX);
-    const sx = Math.sin(rotX);
+    let x =
+        p.x * cy -
+        p.z * sy;
 
-    let y = p.y * cx - z * sx;
-    z = p.y * sx + z * cx;
+    let z =
+        p.x * sy +
+        p.z * cy;
 
-    return {x,y,z};
+
+    const cx =
+        Math.cos(rotX);
+
+    const sx =
+        Math.sin(rotX);
+
+    let y =
+        p.y * cx -
+        z * sx;
+
+    z =
+        p.y * sx +
+        z * cx;
+
+
+    return {
+        x,
+        y,
+        z
+    };
 }
 
 
@@ -401,18 +565,31 @@ function rotatePoint(p){
 
 function project(p){
 
-    const distance = 2.35;
+    const distance =
+        2.35;
 
     const scale =
         distance /
         (distance + p.z);
 
     const galaxySize =
-        Math.min(W,H) * .47;
+        Math.min(W,H) *
+        .47;
 
     return {
-        x:CX + p.x * galaxySize * scale,
-        y:CY + p.y * galaxySize * scale,
+
+        x:
+            CX +
+            p.x *
+            galaxySize *
+            scale,
+
+        y:
+            CY +
+            p.y *
+            galaxySize *
+            scale,
+
         scale
     };
 }
@@ -424,31 +601,75 @@ function project(p){
 
 function drawBackground(time){
 
-    ctx.fillStyle="#000";
-    ctx.fillRect(0,0,W,H);
+    ctx.fillStyle =
+        "#000";
 
-    const g = ctx.createRadialGradient(
-        CX,CY,0,
-        CX,CY,Math.max(W,H)*.65
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
     );
 
-    g.addColorStop(0,"rgba(75,30,130,.12)");
-    g.addColorStop(.35,"rgba(30,10,60,.055)");
-    g.addColorStop(1,"rgba(0,0,0,0)");
 
-    ctx.fillStyle=g;
-    ctx.fillRect(0,0,W,H);
+    const g =
+        ctx.createRadialGradient(
+            CX,
+            CY,
+            0,
+            CX,
+            CY,
+            Math.max(W,H)*.65
+        );
 
-    for(const s of backgroundStars){
+
+    g.addColorStop(
+        0,
+        "rgba(75,30,130,.12)"
+    );
+
+    g.addColorStop(
+        .35,
+        "rgba(30,10,60,.055)"
+    );
+
+    g.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        g;
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    for(
+        const s of backgroundStars
+    ){
 
         const twinkle =
             .65 +
-            Math.sin(time*.0015+s.twinkle)*.35;
+            Math.sin(
+                time*.0015 +
+                s.twinkle
+            )*.35;
 
-        ctx.globalAlpha=s.alpha*twinkle;
-        ctx.fillStyle="#fff";
+        ctx.globalAlpha =
+            s.alpha *
+            twinkle;
+
+        ctx.fillStyle =
+            "#fff";
 
         ctx.beginPath();
+
         ctx.arc(
             s.x*W,
             s.y*H,
@@ -456,10 +677,13 @@ function drawBackground(time){
             0,
             Math.PI*2
         );
+
         ctx.fill();
     }
 
-    ctx.globalAlpha=1;
+
+    ctx.globalAlpha =
+        1;
 }
 
 
@@ -469,95 +693,196 @@ function drawBackground(time){
 
 function drawGalaxyGlow(){
 
-    const radius = Math.min(W,H)*.48;
+    const radius =
+        Math.min(W,H)*.48;
 
-    const g = ctx.createRadialGradient(
-        CX,CY,0,
-        CX,CY,radius
+
+    const g =
+        ctx.createRadialGradient(
+            CX,
+            CY,
+            0,
+            CX,
+            CY,
+            radius
+        );
+
+
+    g.addColorStop(
+        0,
+        "rgba(255,255,255,.08)"
     );
 
-    g.addColorStop(0,"rgba(255,255,255,.08)");
-    g.addColorStop(.12,"rgba(190,120,255,.13)");
-    g.addColorStop(.3,"rgba(110,55,190,.07)");
-    g.addColorStop(.65,"rgba(50,20,100,.025)");
-    g.addColorStop(1,"rgba(0,0,0,0)");
+    g.addColorStop(
+        .12,
+        "rgba(190,120,255,.13)"
+    );
 
-    ctx.fillStyle=g;
+    g.addColorStop(
+        .3,
+        "rgba(110,55,190,.07)"
+    );
+
+    g.addColorStop(
+        .65,
+        "rgba(50,20,100,.025)"
+    );
+
+    g.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        g;
 
     ctx.beginPath();
-    ctx.arc(CX,CY,radius,0,Math.PI*2);
+
+    ctx.arc(
+        CX,
+        CY,
+        radius,
+        0,
+        Math.PI*2
+    );
+
     ctx.fill();
 }
 
 
 /* =========================================================
-   PARÇACIKLARI ÇİZ
+   PARÇACIKLAR
 ========================================================= */
 
 function drawParticles(){
 
-    const projected=[];
+    const projected = [];
 
-    for(const p of particles){
 
-        const r = rotatePoint(p);
-        const q = project(r);
+    for(
+        const p of particles
+    ){
+
+        const r =
+            rotatePoint(p);
+
+        const q =
+            project(r);
+
 
         projected.push({
+
             p,
             q,
             z:r.z
         });
     }
 
-    projected.sort((a,b)=>b.z-a.z);
 
-    for(const item of projected){
+    projected.sort(
+        (a,b)=>
+            b.z-a.z
+    );
 
-        const p=item.p;
-        const q=item.q;
 
-        const dx=q.x-CX;
-        const dy=q.y-CY;
-        const dist=Math.sqrt(dx*dx+dy*dy);
+    for(
+        const item of projected
+    ){
 
-        const holeRadius=Math.min(W,H)*.105;
+        const p =
+            item.p;
 
-        if(dist<holeRadius*.72){
+        const q =
+            item.q;
+
+
+        const dx =
+            q.x-CX;
+
+        const dy =
+            q.y-CY;
+
+
+        const dist =
+            Math.sqrt(
+                dx*dx +
+                dy*dy
+            );
+
+
+        const holeRadius =
+            Math.min(W,H)*.105;
+
+
+        if(
+            dist <
+            holeRadius*.72
+        ){
+
             continue;
         }
 
-        const alpha =
-            Math.max(.05,
-            Math.min(1,
-            p.brightness *
-            (.45 + q.scale*.7)));
 
-        ctx.globalAlpha=alpha;
+        const alpha =
+            Math.max(
+                .05,
+                Math.min(
+                    1,
+                    p.brightness *
+                    (.45 +
+                    q.scale*.7)
+                )
+            );
+
+
+        ctx.globalAlpha =
+            alpha;
+
 
         let color;
 
-        if(p.tone<.72){
-            color="rgba(235,225,255,1)";
-        }else if(p.tone<.9){
-            color="rgba(180,205,255,1)";
+
+        if(
+            p.tone < .72
+        ){
+
+            color =
+                "rgba(235,225,255,1)";
+
+        }else if(
+            p.tone < .9
+        ){
+
+            color =
+                "rgba(180,205,255,1)";
+
         }else{
-            color="rgba(255,190,235,1)";
+
+            color =
+                "rgba(255,190,235,1)";
         }
 
-        ctx.fillStyle=color;
+
+        ctx.fillStyle =
+            color;
+
 
         const size =
             p.size *
             q.scale *
             (W<700 ? 1.0 : 1.15);
 
+
         ctx.beginPath();
 
         ctx.arc(
             q.x,
             q.y,
-            Math.max(.35,size),
+            Math.max(
+                .35,
+                size
+            ),
             0,
             Math.PI*2
         );
@@ -565,7 +890,9 @@ function drawParticles(){
         ctx.fill();
     }
 
-    ctx.globalAlpha=1;
+
+    ctx.globalAlpha =
+        1;
 }
 
 
@@ -575,63 +902,141 @@ function drawParticles(){
 
 function drawAccretion(){
 
-    const R=Math.min(W,H);
+    const R =
+        Math.min(W,H);
+
 
     ctx.save();
-    ctx.translate(CX,CY);
 
-    ctx.rotate(-.16);
 
-    const glow=ctx.createRadialGradient(
-        0,0,R*.07,
-        0,0,R*.22
+    ctx.translate(
+        CX,
+        CY
     );
 
-    glow.addColorStop(0,"rgba(0,0,0,1)");
-    glow.addColorStop(.35,"rgba(0,0,0,1)");
-    glow.addColorStop(.52,"rgba(255,120,220,.18)");
-    glow.addColorStop(.62,"rgba(170,90,255,.08)");
-    glow.addColorStop(1,"rgba(0,0,0,0)");
 
-    ctx.fillStyle=glow;
+    ctx.rotate(
+        -.16
+    );
+
+
+    const glow =
+        ctx.createRadialGradient(
+            0,0,
+            R*.07,
+            0,0,
+            R*.22
+        );
+
+
+    glow.addColorStop(
+        0,
+        "rgba(0,0,0,1)"
+    );
+
+    glow.addColorStop(
+        .35,
+        "rgba(0,0,0,1)"
+    );
+
+    glow.addColorStop(
+        .52,
+        "rgba(255,120,220,.18)"
+    );
+
+    glow.addColorStop(
+        .62,
+        "rgba(170,90,255,.08)"
+    );
+
+    glow.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        glow;
+
 
     ctx.beginPath();
 
     ctx.ellipse(
-        0,0,
+        0,
+        0,
         R*.19,
         R*.065,
-        0,0,Math.PI*2
+        0,
+        0,
+        Math.PI*2
     );
 
     ctx.fill();
 
-    ctx.globalAlpha=.8;
+
+    ctx.globalAlpha =
+        .8;
+
 
     ctx.beginPath();
 
     ctx.ellipse(
-        0,0,
+        0,
+        0,
         R*.155,
         R*.045,
-        0,0,Math.PI*2
+        0,
+        0,
+        Math.PI*2
     );
 
-    const ring=ctx.createLinearGradient(
-        -R*.18,0,
-        R*.18,0
+
+    const ring =
+        ctx.createLinearGradient(
+            -R*.18,
+            0,
+            R*.18,
+            0
+        );
+
+
+    ring.addColorStop(
+        0,
+        "rgba(130,60,255,0)"
     );
 
-    ring.addColorStop(0,"rgba(130,60,255,0)");
-    ring.addColorStop(.3,"rgba(200,130,255,.4)");
-    ring.addColorStop(.5,"rgba(255,220,255,.85)");
-    ring.addColorStop(.7,"rgba(210,110,255,.4)");
-    ring.addColorStop(1,"rgba(100,30,255,0)");
+    ring.addColorStop(
+        .3,
+        "rgba(200,130,255,.4)"
+    );
 
-    ctx.strokeStyle=ring;
-    ctx.lineWidth=Math.max(2,R*.008);
+    ring.addColorStop(
+        .5,
+        "rgba(255,220,255,.85)"
+    );
+
+    ring.addColorStop(
+        .7,
+        "rgba(210,110,255,.4)"
+    );
+
+    ring.addColorStop(
+        1,
+        "rgba(100,30,255,0)"
+    );
+
+
+    ctx.strokeStyle =
+        ring;
+
+    ctx.lineWidth =
+        Math.max(
+            2,
+            R*.008
+        );
 
     ctx.stroke();
+
 
     ctx.restore();
 }
@@ -643,31 +1048,65 @@ function drawAccretion(){
 
 function drawBlackHole(){
 
-    const R=Math.min(W,H);
+    const R =
+        Math.min(W,H);
 
-    const g=ctx.createRadialGradient(
-        CX,CY,0,
-        CX,CY,R*.12
+
+    const g =
+        ctx.createRadialGradient(
+            CX,
+            CY,
+            0,
+            CX,
+            CY,
+            R*.12
+        );
+
+
+    g.addColorStop(
+        0,
+        "#000"
     );
 
-    g.addColorStop(0,"#000");
-    g.addColorStop(.48,"#000");
-    g.addColorStop(.65,"rgba(8,3,15,.98)");
-    g.addColorStop(.78,"rgba(60,20,100,.35)");
-    g.addColorStop(1,"rgba(0,0,0,0)");
+    g.addColorStop(
+        .48,
+        "#000"
+    );
 
-    ctx.fillStyle=g;
+    g.addColorStop(
+        .65,
+        "rgba(8,3,15,.98)"
+    );
+
+    g.addColorStop(
+        .78,
+        "rgba(60,20,100,.35)"
+    );
+
+    g.addColorStop(
+        1,
+        "rgba(0,0,0,0)"
+    );
+
+
+    ctx.fillStyle =
+        g;
+
 
     ctx.beginPath();
 
     ctx.arc(
-        CX,CY,
+        CX,
+        CY,
         R*.145,
         0,
         Math.PI*2
     );
 
     ctx.fill();
+
+
+    /* Event horizon */
 
     ctx.beginPath();
 
@@ -679,11 +1118,19 @@ function drawBlackHole(){
         Math.PI*2
     );
 
-    ctx.fillStyle="#000";
+
+    ctx.fillStyle =
+        "#000";
+
     ctx.fill();
 
-    ctx.strokeStyle="rgba(180,100,255,.13)";
-    ctx.lineWidth=1;
+
+    ctx.strokeStyle =
+        "rgba(180,100,255,.13)";
+
+    ctx.lineWidth =
+        1;
+
     ctx.stroke();
 }
 
@@ -694,49 +1141,97 @@ function drawBlackHole(){
 
 function drawMessages(time){
 
-    for(const m of messagePoints){
+    for(
+        const m of messagePoints
+    ){
 
-        const r=rotatePoint(m);
-        const q=project(r);
+        const r =
+            rotatePoint(m);
 
-        m.screenX=q.x;
-        m.screenY=q.y;
-        m.screenScale=q.scale;
+        const q =
+            project(r);
 
-        if(r.z > 1.1){
-            m.visible=false;
+
+        m.screenX =
+            q.x;
+
+        m.screenY =
+            q.y;
+
+        m.screenScale =
+            q.scale;
+
+
+        if(
+            r.z > 1.1
+        ){
+
+            m.visible =
+                false;
+
             continue;
         }
 
+
         const floatY =
-            Math.sin(time*.0015+m.phase)*3;
+            Math.sin(
+                time*.0015 +
+                m.phase
+            )*3;
 
-        const x=q.x;
-        const y=q.y+floatY;
 
-        m.visible=true;
+        const x =
+            q.x;
+
+        const y =
+            q.y +
+            floatY;
+
+
+        m.visible =
+            true;
+
 
         const pulse =
-            .8+
-            Math.sin(time*.002+m.phase)*.15;
+            .8 +
+            Math.sin(
+                time*.002 +
+                m.phase
+            )*.15;
+
 
         const size =
-            Math.max(7,
-            Math.min(12,
-            9*q.scale));
+            Math.max(
+                7,
+                Math.min(
+                    12,
+                    9*q.scale
+                )
+            );
+
 
         ctx.save();
 
-        ctx.globalAlpha=.38*pulse;
 
-        ctx.shadowBlur=8;
-        ctx.shadowColor="rgba(210,150,255,.9)";
-        ctx.fillStyle="rgba(240,220,255,1)";
+        ctx.globalAlpha =
+            .38*pulse;
+
+
+        ctx.shadowBlur =
+            8;
+
+        ctx.shadowColor =
+            "rgba(210,150,255,.9)";
+
+        ctx.fillStyle =
+            "rgba(240,220,255,1)";
+
 
         ctx.beginPath();
 
         ctx.arc(
-            x,y,
+            x,
+            y,
             2.2,
             0,
             Math.PI*2
@@ -744,29 +1239,51 @@ function drawMessages(time){
 
         ctx.fill();
 
-        ctx.shadowBlur=0;
+
+        ctx.shadowBlur =
+            0;
+
 
         ctx.font =
             `${size}px Arial`;
 
-        ctx.textAlign="center";
-        ctx.textBaseline="middle";
+        ctx.textAlign =
+            "center";
 
-        ctx.globalAlpha=.62;
+        ctx.textBaseline =
+            "middle";
 
-        ctx.fillStyle="rgba(255,255,255,.9)";
 
-        let short=m.text;
+        ctx.globalAlpha =
+            .62;
 
-        if(short.length>22){
-            short=short.substring(0,21)+"…";
+
+        ctx.fillStyle =
+            "rgba(255,255,255,.9)";
+
+
+        let short =
+            m.text;
+
+
+        if(
+            short.length > 22
+        ){
+
+            short =
+                short.substring(
+                    0,
+                    21
+                ) + "…";
         }
+
 
         ctx.fillText(
             short,
             x,
             y-9
         );
+
 
         ctx.restore();
     }
@@ -777,287 +1294,60 @@ function drawMessages(time){
    ANİMASYON
 ========================================================= */
 
-let startTime=performance.now();
+let startTime =
+    performance.now();
+
 
 function animate(now){
 
-    const time=now-startTime;
+    const time =
+        now-startTime;
+
 
     if(!dragging){
 
-        targetRotY += velocityY;
-        targetRotX += velocityX;
+        targetRotY +=
+            velocityY;
 
-        velocityY *= .995;
-        velocityX *= .995;
+        targetRotX +=
+            velocityX;
 
-        if(Math.abs(velocityY)<.0012){
-            velocityY +=
-                (0.0018-velocityY)*.002;
-        }
 
-        if(Math.abs(velocityX)<.0001){
-            velocityX *= .98;
-        }
-    }
+        velocityY *=
+            .995;
 
-    rotY += (targetRotY-rotY)*.08;
-    rotX += (targetRotX-rotX)*.08;
+        velocityX *=
+            .995;
 
-    rotX=Math.max(-.9,Math.min(.9,rotX));
-
-    drawBackground(time);
-    drawGalaxyGlow();
-    drawParticles();
-    drawAccretion();
-    drawBlackHole();
-    drawMessages(time);
-
-    requestAnimationFrame(animate);
-}
-
-requestAnimationFrame(animate);
-
-
-/* =========================================================
-   DOKUNMA / MOUSE
-========================================================= */
-
-function pointerDown(x,y){
-
-    dragging=true;
-
-    lastX=x;
-    lastY=y;
-
-    velocityY=0;
-    velocityX=0;
-}
-
-function pointerMove(x,y){
-
-    if(!dragging) return;
-
-    const dx=x-lastX;
-    const dy=y-lastY;
-
-    targetRotY += dx*.006;
-    targetRotX += dy*.004;
-
-    velocityY=dx*.0015;
-    velocityX=dy*.001;
-
-    lastX=x;
-    lastY=y;
-}
-
-function pointerUp(x,y){
-
-    if(!dragging) return;
-
-    dragging=false;
-
-    const moved =
-        Math.abs(x-lastX)+Math.abs(y-lastY);
-}
-
-
-/* =========================================================
-   MESAJ TIKLAMA
-========================================================= */
-
-function checkMessage(x,y){
-
-    let closest=null;
-    let closestDist=Infinity;
-
-    for(const m of messagePoints){
-
-        if(!m.visible) continue;
-
-        const dx=x-m.screenX;
-        const dy=y-m.screenY;
-
-        const d=Math.sqrt(dx*dx+dy*dy);
-
-        const hitRadius=
-            Math.max(22,18*m.screenScale);
-
-        if(d<hitRadius && d<closestDist){
-
-            closest=m;
-            closestDist=d;
-        }
-    }
-
-    if(closest){
-
-        showMessage(closest.text);
-        return true;
-    }
-
-    return false;
-}
-
-function showMessage(text){
-
-    messageText.textContent=text;
-    messageBox.classList.add("show");
-}
-
-function hideMessage(){
-
-    messageBox.classList.remove("show");
-}
-
-
-/* =========================================================
-   FOTOĞRAF
-========================================================= */
-
-const photoPopup =
-    document.getElementById("photoPopup");
-
-const specialPhoto =
-    document.getElementById("specialPhoto");
-
-
-function checkBlackHole(x,y){
-
-    const dx=x-CX;
-    const dy=y-CY;
-
-    const distance=
-        Math.sqrt(dx*dx+dy*dy);
-
-    /*
-       Kara deliğin dokunma alanı.
-       Görüntüdeki merkezi kara deliğe
-       biraz geniş dokunma alanı veriyoruz.
-    */
-
-    const blackHoleRadius=
-        Math.min(W,H)*.12;
-
-    return distance < blackHoleRadius;
-}
-
-
-function showPhoto(){
-
-    photoPopup.classList.add("show");
-
-    hideMessage();
-}
-
-
-function hidePhoto(){
-
-    photoPopup.classList.remove("show");
-}
-
-
-/*
-   Fotoğrafın kendisine dokununca kapanır.
-*/
-
-specialPhoto.addEventListener(
-    "click",
-    function(e){
-
-        e.stopPropagation();
-
-        hidePhoto();
-    }
-);
-
-
-/*
-   Fotoğrafın dışına dokunulursa da kapanır.
-*/
-
-photoPopup.addEventListener(
-    "click",
-    function(e){
-
-        if(e.target === photoPopup){
-
-            hidePhoto();
-        }
-    }
-);
-
-
-/*
-   Telefonlarda fotoğrafın kendisine dokunma
-*/
-
-specialPhoto.addEventListener(
-    "touchend",
-    function(e){
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        hidePhoto();
-    },
-    {passive:false}
-);
-
-
-/* =========================================================
-   TOUCH
-========================================================= */
-
-let touchStartX=0;
-let touchStartY=0;
-let touchMoved=false;
-
-canvas.addEventListener(
-    "touchstart",
-    function(e){
-
-        const t=e.touches[0];
-
-        touchStartX=t.clientX;
-        touchStartY=t.clientY;
-        touchMoved=false;
-
-        pointerDown(
-            t.clientX,
-            t.clientY
-        );
-
-    },
-    {passive:false}
-);
-
-
-canvas.addEventListener(
-    "touchmove",
-    function(e){
-
-        e.preventDefault();
-
-        const t=e.touches[0];
 
         if(
-            Math.abs(t.clientX-touchStartX)>8 ||
-            Math.abs(t.clientY-touchStartY)>8
+            Math.abs(velocityY) <
+            .0012
         ){
-            touchMoved=true;
+
+            velocityY +=
+                (
+                    .0018 -
+                    velocityY
+                )*.002;
         }
 
-        pointerMove(
-            t.clientX,
-            t.clientY
-        );
 
-    },
-    {passive:false}
-);
+        if(
+            Math.abs(velocityX) <
+            .0001
+        ){
+
+            velocityX *=
+                .98;
+        }
+    }
 
 
-canvas.addEventListener(
-    "touchend",
-    function(e){
+    rotY +=
+        (targetRotY-rotY)*
+        .08;
+
+    rotX +=
+        (targetRotX-rotX)*
+  
